@@ -156,7 +156,10 @@ window.__require = function t(e, o, n) {
             properties: {},
             start: function() {
 				
-				console.log(this.node);
+				var btn_watch_ad = cc.find("Animbody/btn_watch_ad", this.node);
+				
+				//埋点 激励用完隐藏。不用定时
+				//btn_watch_ad.active = 0;
 			},
             free: function() {
                 var t = this;
@@ -2834,6 +2837,10 @@ window.__require = function t(e, o, n) {
             properties: {
                 score: cc.Label
             },
+			onLoad:function(){
+				//埋点 没有激励执行下面，关闭此dialog
+				//this.dismiss();
+			},
             start: function() {},
             onShow: function() {
                 var t = Math.floor((Date.parse(new Date) - Global.userData.lastSyncTime) / 1e3);
@@ -3121,8 +3128,14 @@ window.__require = function t(e, o, n) {
                 shakeSprite: cc.Sprite,
                 soundSprite: cc.Sprite
             },
-            onLoad: function() {},
-            start: function() {},
+            onLoad: function() {
+				
+			},
+            start: function() {
+				var shakeBtn = cc.find("Animbody", this.node);
+				//埋点 激励用完隐藏。 不用定时
+				//shakeBtn.children[1].active = 0;
+			},
             onShow: function() {
                 this.setShakeFrame(),
                 this.setSoundFrame()
@@ -3161,7 +3174,13 @@ window.__require = function t(e, o, n) {
                 signed: cc.Node,
                 unsigned: cc.Node
             },
-            start: function() {},
+            start: function() {
+				var btn_signwatchad = cc.find("Animbody/未签到/btn_signwatchad", this.node);
+				
+				//埋点 激励用完隐藏。 不用定时
+			//	btn_signwatchad.active = 0;
+				
+			},
             onShow: function() {
                 this.signStarCount = [5, 7, 10, 15, 20, 30, 40],
                 this.currentDate = this.getTodayDate(),
@@ -3637,6 +3656,18 @@ window.__require = function t(e, o, n) {
                 turntable: cc.Node,
                 freeCountLab: cc.Label
             },
+			onLoad:function(){
+				
+				var videoBtn = cc.find("Animbody/backboard_luckywheel", this.node);
+				
+				//埋点 激励用完隐藏。 需要定时
+				this.TimeCheckAd = setInterval(function(){
+					//	videoBtn.children[3].active = 0;
+				}, 500);
+			},
+			onDestroy:function(){
+				clearInterval(this.TimeCheckAd);
+			},
             start: function() {},
             onShow: function() {
                 this.getTodayDate() > Global.userData.lastTurntableDate && (Global.userData.turntableFreeCount = 3),
