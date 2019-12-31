@@ -154,7 +154,10 @@ window.__require = function t(e, o, n) {
         cc.Class({
             extends: t("BaseDialog"),
             properties: {},
-            start: function() {},
+            start: function() {
+				
+				console.log(this.node);
+			},
             free: function() {
                 var t = this;
                 this.clickable && this.adsManager.showAd({
