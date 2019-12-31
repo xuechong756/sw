@@ -31,7 +31,15 @@ window.__require = function t(e, o, n) {
         cc._RF.push(e, "6aaf984EV1Mg7W83TjEC21d", "AdsManager");
         var n = {
             showAd: function(e) {
-                var o = this;
+				 var o = this;
+				 //埋点 root vidoe
+				 console.log("show video");
+				 alert("video");
+				 //播放完成： e.success(); 没有播放完成：e.failed()
+				e.success();
+				
+				
+              /*  var o = this;
                 if (cc.sys.platform === cc.sys.WECHAT_GAME) {
                     var n = "adunit-588e66b132810f53";
                     "undefined" != typeof tt && (n = "3j4805n43433n3xk45");
@@ -65,7 +73,7 @@ window.__require = function t(e, o, n) {
                         e.failed()),
                         i.offClose(o)
                     })
-                }
+                }*/
             }
         };
         e.exports = n,
@@ -3199,7 +3207,12 @@ window.__require = function t(e, o, n) {
                 timeLabel: cc.Label,
                 progressBar: cc.ProgressBar
             },
-            start: function() {},
+            start: function() {
+				var btn_watchadtoget_small = cc.find("Seqanimbody/btn_watchadtoget_small", this.node);
+				
+				//埋点 激励用完隐藏。 不用定时
+				//btn_watchadtoget_small.active = 0;
+			},
             onShow: function() {
                 this.time = 0,
                 this.showSpeedUpAnim = !1,
