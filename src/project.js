@@ -1777,8 +1777,19 @@ window.__require = function t(e, o, n) {
                 ,
                 this.schedule(this.syncTask, 10),
                 this.time = 0,
-                this.playBgm()
+                this.playBgm();
+				
+				
+				
+				var receiStarBtn = cc.find("Control/head/领取每日星星", this.node);
+				//埋点 激励用完隐藏。定时
+				this.TimeCheckAd = setInterval(function(){
+					//receiStarBtn.active = 0;
+				}, 500);
             },
+			onDestroy:function(){
+				clearInterval(this.TimeCheckAd);
+			},
 			autoAdapteScreen:function(){
 				// 适配解决方案
 				let _canvas = cc.Canvas.instance;
@@ -2166,7 +2177,11 @@ window.__require = function t(e, o, n) {
                     failed: function() {}
                 })
             },
-            start: function() {}
+            start: function() {
+				//var btn_watchad_offline = cc.find("Animbody/btn_watchad_offline", this.node);
+			//	btn_watchad_offline.active = 0;
+				//console.log(this.node);
+			}
         }),
         cc._RF.pop()
     }
@@ -2202,7 +2217,16 @@ window.__require = function t(e, o, n) {
                     }, 20)
                 }
             },
-            start: function() {},
+            start: function() {
+				var thisObj = this;
+				if(1 == this.type){
+					//埋点 没有激励执行下面。不用定时
+					{
+						thisObj.node.parent = null,
+						thisObj.node.active = !1,
+					}
+				}
+			},
             onClick: function() {
                 switch (this.type) {
                 case 0:
@@ -2230,7 +2254,14 @@ window.__require = function t(e, o, n) {
                 giftSpriteFrames: [cc.SpriteFrame],
                 giftIcon: cc.Node
             },
-            start: function() {},
+            start: function() {
+				
+				var btn_watchadtoget_small = cc.find("Seqanimbody/btn_watchadtoget_small", this.node);
+				//埋点 激励用完隐藏。不用定时
+				//btn_watchadtoget_small.active = 0;
+				
+				//console.log(this.node);
+			},
             onShow: function() {
                 this.type = Math.floor(2 * Math.random()),
                 this.giftIcon.getComponent(cc.Sprite).spriteFrame = this.giftSpriteFrames[this.type]
@@ -2939,7 +2970,16 @@ window.__require = function t(e, o, n) {
                 attackLabel: cc.Label,
                 starLabel: cc.Label
             },
-            start: function() {},
+            start: function() {
+				
+				console.log(this.node);
+				
+				
+				var btn_watchadtorecievedouble = cc.find("Seqanimbody/btn_watchadtorecievedouble", this.node);
+				
+				//埋单 激励用完隐藏 不用定时
+				//btn_watchadtorecievedouble.active = 0;
+			},
             onShow: function() {
                 this.beforeConfig = cc.MainGame.promotionJson.json.promotions[Global.userData.promotion],
                 this.afterConfig = cc.MainGame.promotionJson.json.promotions[Global.userData.promotion + 1],
@@ -4235,6 +4275,19 @@ window.__require = function t(e, o, n) {
                 starCount: cc.Label,
                 residueDegree: cc.Label
             },
+			onLoad:function(){
+				
+				var thisObj = this;
+				//埋点 激励用完隐藏。定时
+				this.TimeCheckAd = setInterval(function(){
+					// 埋点 没有激励 执行
+					//thisObj.dismiss();
+				}, 500);
+				console.log(this.node);
+			},
+			onDestroy:function(){
+				clearInterval(this.TimeCheckAd);
+			},
             start: function() {},
             onShow: function() {
                 if (0 == cc.MainGame.starReceviedMap.size) {
