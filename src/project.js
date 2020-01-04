@@ -2223,7 +2223,7 @@ window.__require = function t(e, o, n) {
 					//埋点 没有激励执行下面。不用定时
 					{
 						thisObj.node.parent = null,
-						thisObj.node.active = !1,
+						thisObj.node.active = !1;
 					}
 				}
 			},
