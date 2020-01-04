@@ -3214,14 +3214,16 @@ window.__require = function t(e, o, n) {
                 soundSprite: cc.Sprite
             },
             onLoad: function() {
-				
+				var animbody = cc.find("Animbody", this.node);
+				animbody.children[1].active = 0;
+				//console.log(this.node);
 			},
             start: function() {
-				var shakeBtn = cc.find("Animbody", this.node);
+			/*	var shakeBtn = cc.find("Animbody", this.node);
 				//埋点 激励用完隐藏。 不用定时
 				window.h5api && window.h5api.canPlayAd(function(data){
 					shakeBtn.children[1].active = data.canPlayAd;
-				}.bind(this));
+				}.bind(this));*/
 			},
             onShow: function() {
                 this.setShakeFrame(),
