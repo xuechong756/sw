@@ -33,10 +33,20 @@ window.__require = function t(e, o, n) {
             showAd: function(e) {
 				 var o = this;
 				 //埋点 root vidoe
-				 console.log("show video");
-				 alert("video");
 				 //播放完成： e.success(); 没有播放完成：e.failed()
-				e.success();
+				 //console.log("show video");
+				 if(window.h5api && confirm("是否播放视频,获得相应奖励？")){
+					window.h5api.playAd(function(obj){
+						console.log('代码:' + obj.code + ',消息:' + obj.message);
+						if (obj.code === 10000) {
+							console.log('开始播放');
+						} else if (obj.code === 10001) {
+							e.success();
+						} else {
+							e.failed();
+						}
+					}.bind(this));
+				}			
 				
 				
               /*  var o = this;
@@ -159,7 +169,9 @@ window.__require = function t(e, o, n) {
 				var btn_watch_ad = cc.find("Animbody/btn_watch_ad", this.node);
 				
 				//埋点 激励用完隐藏。不用定时
-				//btn_watch_ad.active = 0;
+				window.h5api && window.h5api.canPlayAd(function(data){
+					btn_watch_ad.active =  data.canPlayAd;
+				}.bind(this));
 			},
             free: function() {
                 var t = this;
@@ -1784,7 +1796,9 @@ window.__require = function t(e, o, n) {
 				var receiStarBtn = cc.find("Control/head/领取每日星星", this.node);
 				//埋点 激励用完隐藏。定时
 				this.TimeCheckAd = setInterval(function(){
-					//receiStarBtn.active = 0;
+					window.h5api && window.h5api.canPlayAd(function(data){
+						receiStarBtn.active = data.canPlayAd;
+					}.bind(this));
 				}, 500);
             },
 			onDestroy:function(){
@@ -2221,10 +2235,12 @@ window.__require = function t(e, o, n) {
 				var thisObj = this;
 				if(1 == this.type){
 					//埋点 没有激励执行下面。不用定时
-					{
-						thisObj.node.parent = null,
-						thisObj.node.active = !1;
-					}
+					window.h5api && window.h5api.canPlayAd(function(data){
+						if(!data.canPlayAd){
+							thisObj.node.parent = null,
+							thisObj.node.active = !1;
+						}
+					}.bind(this));
 				}
 			},
             onClick: function() {
@@ -2258,9 +2274,9 @@ window.__require = function t(e, o, n) {
 				
 				var btn_watchadtoget_small = cc.find("Seqanimbody/btn_watchadtoget_small", this.node);
 				//埋点 激励用完隐藏。不用定时
-				//btn_watchadtoget_small.active = 0;
-				
-				//console.log(this.node);
+				window.h5api && window.h5api.canPlayAd(function(data){
+					btn_watchadtoget_small.active =  data.canPlayAd;
+				}.bind(this));				
 			},
             onShow: function() {
                 this.type = Math.floor(2 * Math.random()),
@@ -2869,8 +2885,13 @@ window.__require = function t(e, o, n) {
                 score: cc.Label
             },
 			onLoad:function(){
+				var thisObj = this;
 				//埋点 没有激励执行下面，关闭此dialog
-				//this.dismiss();
+				window.h5api && window.h5api.canPlayAd(function(data){
+					if(!data.canPlayAd){
+						thisObj.dismiss();
+					}
+				}.bind(this));
 			},
             start: function() {},
             onShow: function() {
@@ -3174,7 +3195,9 @@ window.__require = function t(e, o, n) {
             start: function() {
 				var shakeBtn = cc.find("Animbody", this.node);
 				//埋点 激励用完隐藏。 不用定时
-				//shakeBtn.children[1].active = 0;
+				window.h5api && window.h5api.canPlayAd(function(data){
+					shakeBtn.children[1].active = data.canPlayAd;
+				}.bind(this));
 			},
             onShow: function() {
                 this.setShakeFrame(),
@@ -3218,7 +3241,9 @@ window.__require = function t(e, o, n) {
 				var btn_signwatchad = cc.find("Animbody/未签到/btn_signwatchad", this.node);
 				
 				//埋点 激励用完隐藏。 不用定时
-			//	btn_signwatchad.active = 0;
+				window.h5api && window.h5api.canPlayAd(function(data){
+					btn_signwatchad.active = data.canPlayAd;
+				}.bind(this));
 				
 			},
             onShow: function() {
@@ -3273,7 +3298,9 @@ window.__require = function t(e, o, n) {
 				var btn_watchadtoget_small = cc.find("Seqanimbody/btn_watchadtoget_small", this.node);
 				
 				//埋点 激励用完隐藏。 不用定时
-				//btn_watchadtoget_small.active = 0;
+				window.h5api && window.h5api.canPlayAd(function(data){
+					btn_watchadtoget_small.active =  data.canPlayAd;
+				}.bind(this));
 			},
             onShow: function() {
                 this.time = 0,
@@ -3702,7 +3729,9 @@ window.__require = function t(e, o, n) {
 				
 				//埋点 激励用完隐藏。 需要定时
 				this.TimeCheckAd = setInterval(function(){
-					//	videoBtn.children[3].active = 0;
+					window.h5api && window.h5api.canPlayAd(function(data){
+						videoBtn.children[3].active = data.canPlayAd;
+					}.bind(this));	
 				}, 500);
 			},
 			onDestroy:function(){
@@ -4281,7 +4310,11 @@ window.__require = function t(e, o, n) {
 				//埋点 激励用完隐藏。定时
 				this.TimeCheckAd = setInterval(function(){
 					// 埋点 没有激励 执行
-					//thisObj.dismiss();
+					window.h5api && window.h5api.canPlayAd(function(data){
+						if(!data.canPlayAd){
+							thisObj.dismiss();
+						}
+					}.bind(this));
 				}, 500);
 				console.log(this.node);
 			},
