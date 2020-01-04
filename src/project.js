@@ -269,6 +269,25 @@ window.__require = function t(e, o, n) {
         cc.Class({
             extends: t("BaseUtils"),
             properties: {},
+			onLoad:function(){
+				
+				var recomNode = new cc.Node();
+                recomNode.y = -(this.node.height/2) + 200;
+                
+				var lable = recomNode.addComponent(cc.Label);
+                lable.string = "更多好玩";
+                lable.fontSize = 50;
+                lable.lineHeight = 50;
+				var action = cc.sequence(cc.scaleTo(.5, 1.2), cc.scaleTo(.5, 0.9));
+				action = cc.repeatForever(action);
+                recomNode.runAction(action);
+                recomNode.on(cc.Node.EventType.TOUCH_START, function(){
+                    //埋点 推荐更多好玩
+                  //  console.log("more game");
+					window.h5api && window.h5api.showRecommend();
+                }, this);	
+				this.node.addChild(recomNode);	
+			},
             dismiss: function() {
                 if (this.clickable) {
                     this.clickable = !1;
@@ -2997,14 +3016,14 @@ window.__require = function t(e, o, n) {
                 starLabel: cc.Label
             },
             start: function() {
-				
-				console.log(this.node);
-				
+				//console.log(this.node);
 				
 				var btn_watchadtorecievedouble = cc.find("Seqanimbody/btn_watchadtorecievedouble", this.node);
+				//埋点 激励用完隐藏 不用定时
+				window.h5api && window.h5api.canPlayAd(function(data){
+					btn_watchadtorecievedouble.active = data.canPlayAd;
+				}.bind(this));
 				
-				//埋单 激励用完隐藏 不用定时
-				//btn_watchadtorecievedouble.active = 0;
 			},
             onShow: function() {
                 this.beforeConfig = cc.MainGame.promotionJson.json.promotions[Global.userData.promotion],
@@ -4321,7 +4340,7 @@ window.__require = function t(e, o, n) {
 						}
 					}.bind(this));
 				}, 500);
-				console.log(this.node);
+			//	console.log(this.node);
 			},
 			onDestroy:function(){
 				clearInterval(this.TimeCheckAd);
