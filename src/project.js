@@ -2554,7 +2554,8 @@ window.__require = function t(e, o, n) {
         cc._RF.push(e, "54408wxnoVILYZh08gDPag4", "LocalStorage");
         var i = {
             initObject: function(e, o) {
-                if (this.net = t("NetApi"),
+				null != o && o();
+             /*   if (this.net = t("NetApi"),
                 this.read(e))
                     null != o && o();
                 else {
@@ -2573,7 +2574,7 @@ window.__require = function t(e, o, n) {
                             cc.log(t + "," + e)
                         }
                     })
-                }
+                }*/
             },
             initMap: function(e, o) {
                 if (this.net = t("NetApi"),
@@ -2734,7 +2735,8 @@ window.__require = function t(e, o, n) {
             userId: null,
             requestMinInterval: 5,
             XMLHttpRequestPool: [],
-            baseUrl: "https://api.928788.cn/",
+         //   baseUrl: "https://api.928788.cn/",
+			baseUrl:"",
             addCannonJson: function(t, e, o) {
                 t += this.getUserId(),
                 e = encodeURIComponent(e),
@@ -2812,7 +2814,8 @@ window.__require = function t(e, o, n) {
                 this.XMLHttpRequestPool[this.XMLHttpRequestPool.length - 1]
             },
             request: function(t, e, o) {
-                if (this.lastRequestTimeMap || (this.lastRequestTimeMap = new Map),
+				
+            /*   if (this.lastRequestTimeMap || (this.lastRequestTimeMap = new Map),
                 null != e && "ok" != e) {
                     var n = this.lastRequestTimeMap.get(e);
                     if (n)
@@ -2829,6 +2832,8 @@ window.__require = function t(e, o, n) {
                         var t = i.responseText
                           , e = i.status;
                         if (e >= 200 && e < 400) {
+							console.log("aaaaaaaaaaaaaaaaaaaaaaaa");
+							console.log(t);
                             var n = JSON.parse(t);
                             null != o && o.success(n),
                             cc.log("XMLHttpRequest--response:success:" + t)
@@ -2839,7 +2844,7 @@ window.__require = function t(e, o, n) {
                 }
                 ,
                 i.open("GET", this.baseUrl + t, !0),
-                i.send()
+                i.send()*/
             },
             getUserId: function() {
                 return this.userId || (this.userId = cc.sys.localStorage.getItem("userId")),
@@ -3932,9 +3937,9 @@ window.__require = function t(e, o, n) {
                     else
                         wx.setStorageSync("wxgamecid", "default")
                 }
-                if (cc.sys.platform === cc.sys.WECHAT_GAME) {
-                    "undefined" != typeof tt && (imgeUr = "https://sf1-ttcdn-tos.pstatp.com/img/developer/app/ttd2e9a4544dc311c3/si893c33b~noop.image")
-                }
+              //  if (cc.sys.platform === cc.sys.WECHAT_GAME) {
+               //     "undefined" != typeof tt && (imgeUr = "https://sf1-ttcdn-tos.pstatp.com/img/developer/app/ttd2e9a4544dc311c3/si893c33b~noop.image")
+               // }
                 this.tryTime = 0
             },
 			autoAdapteScreen:function(){
