@@ -30,7 +30,7 @@ window.__require = function t(e, o, n) {
         "use strict";
         cc._RF.push(e, "6aaf984EV1Mg7W83TjEC21d", "AdsManager");
         var n = {
-            showAd: function(e) {
+            showAd: function(e) {				
 				 var o = this;
 				 //埋点 root vidoe
 				 //播放完成： e.success(); 没有播放完成：e.failed()
@@ -46,6 +46,8 @@ window.__require = function t(e, o, n) {
 							e.failed();
 						}
 					}.bind(this));
+				}else{
+					e.failed();
 				}			
 				
 				
@@ -858,7 +860,19 @@ window.__require = function t(e, o, n) {
         cc.Class({
             extends: t("BaseDialog"),
             properties: {},
-            start: function() {},
+            start: function() {
+				var animbody = cc.find("Animbody", this.node);
+				//埋点 激励用完执行下面 不用定时
+				window.h5api && window.h5api.canPlayAd(function(data){
+					if(!data.canPlayAd){
+						var labelInfor = cc.find("New Label", animbody);
+						labelInfor = labelInfor.getComponent(cc.Label);
+						labelInfor.string = "免费次数用完";
+						var btn_watchad_offline = cc.find("btn_watchad_offline", animbody);
+						btn_watchad_offline.active = 0;
+					}
+				}.bind(this));
+			},
             watchVideoToPlay: function() {
                 var t = this;
                 this.clickable && this.adsManager.showAd({
@@ -1670,7 +1684,13 @@ window.__require = function t(e, o, n) {
             properties: {
                 starCount: cc.Label
             },
-            start: function() {},
+            start: function() {
+				//埋点 激励用完执行下面 不用定时
+				var btn_usestar_offline = cc.find("Animbody/btn_usestar_offline", this.node);
+				window.h5api && window.h5api.canPlayAd(function(data){
+					btn_usestar_offline.active = data.canPlayAd;
+				}.bind(this));				
+			},
             single: function() {
                 this.clickable && (Global.userData.star += 10,
                 cc.director.loadScene("ExploreChoose"))
@@ -3751,12 +3771,17 @@ window.__require = function t(e, o, n) {
             },
 			onLoad:function(){
 				
+				
 				var videoBtn = cc.find("Animbody/backboard_luckywheel", this.node);
 				
 				//埋点 激励用完隐藏。 需要定时
+				var thisObj = this;
 				this.TimeCheckAd = setInterval(function(){
 					window.h5api && window.h5api.canPlayAd(function(data){
 						videoBtn.children[3].active = data.canPlayAd;
+						if(!data.canPlayAd){
+							thisObj.freeCountLab.string = "0/3";
+						}
 					}.bind(this));	
 				}, 500);
 			},
